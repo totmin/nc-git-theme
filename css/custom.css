@@ -269,24 +269,26 @@
    File-type icons (injected by js/files.js, Gitea Material set)
    ============================================================ */
 
-/* The colored per-type icon replaces the native preview image. The folder
-   variant is a monochrome octicon tinted with the theme's primary color. */
+/* The colored per-type icon replaces the native preview image. Sized to the
+   native icon column (min() caps the huge grid preview size), so round icons
+   never get clipped by the row's overflow:hidden cell. */
 #app-content-vue .files-list__row-icon .totmin-file-icon {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: 32px;
-	height: 32px;
+	width: min(var(--icon-preview-size), 32px);
+	height: min(var(--icon-preview-size), 32px);
 }
 
 #app-content-vue .files-list__row-icon .totmin-file-icon svg {
-	width: 32px;
-	height: 32px;
+	width: 100%;
+	height: 100%;
 	display: block;
 }
 
-#app-content-vue .files-list__row-icon .totmin-file-icon--folder svg {
-	color: var(--color-primary);
+/* Hide native file preview container (only for files, folders are handled natively). */
+#app-content-vue .files-list__row-icon .files-list__row-icon-preview-container {
+	display: none !important;
 }
 
 /* ============================================================

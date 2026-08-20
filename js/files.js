@@ -187,7 +187,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	/**
 	 * Replace the row preview / default icon with a per-type colored icon.
-	 * Rows are skipped once marked, so the observer cannot re-trigger itself.
+	 * Each row is only touched while its state hash (dir/file + name) differs
+	 * from what was last applied, so already-processed rows are skipped and the
+	 * observer cannot re-trigger itself. Folders keep their native icon.
 	 */
 	const syncIcons = () => {
 		const data = window.TOTMIN_FILE_ICONS
@@ -195,43 +197,60 @@ document.addEventListener('DOMContentLoaded', () => {
 			return
 		}
 		document.querySelectorAll('.files-list__row').forEach((row) => {
-			if (row.getAttribute('data-totmin-icon') !== null) {
-				return
-			}
 			const name = row.getAttribute('data-cy-files-list-row-name')
 			const iconWrap = row.querySelector('.files-list__row-icon')
 			if (!name || iconWrap === null) {
 				return
 			}
+
+			// Folders are only ever marked by their native `.folder-icon` child.
+			// A row whose folder-icon is not rendered yet is handled like a file
+			// and corrected on the next pass once the icon appears (state hash
+			// diverges → reprocess), so this stays converged.
 			const isDir = iconWrap.querySelector('.folder-icon') !== null
-				|| iconWrap.querySelector('.files-list__row-icon-preview') === null
-			let svg
-			if (isDir) {
-				svg = data.svg._folder
-			} else {
-				const lower = name.toLowerCase()
-				let icon = data.names[lower]
-				if (!icon) {
-					// e.g. README.md -> readme, LICENSE.txt -> license
-					icon = data.names[lower.replace(/\.[^.]+$/, '')]
-				}
-				if (!icon) {
-					const dot = lower.lastIndexOf('.')
-					const ext = dot > 0 ? lower.slice(dot + 1) : ''
-					icon = data.ext[ext] || 'file'
-				}
-				svg = data.svg[icon] || data.svg.file
-			}
-			if (!svg) {
+
+			// State hash: row identity + dir/file. Virtual lists recycle DOM
+			// rows, so the previous marker must not let a stale icon linger when
+			// the row is reused for another file — reprocess whenever it differs.
+			const state = (isDir ? 'd:' : 'f:') + name
+			if (row.getAttribute('data-totmin-icon') === state) {
 				return
 			}
+
+			// Reset the icon area to its native state before re-applying.
+			iconWrap.querySelectorAll('.totmin-file-icon').forEach((node) => node.remove())
+			iconWrap.querySelectorAll('.files-list__row-icon-preview-container, .material-design-icon')
+				.forEach((node) => { node.style.display = '' })
+
+			if (isDir) {
+				// Folders keep Nextcloud's native folder icon.
+				row.setAttribute('data-totmin-icon', state)
+				return
+			}
+
+			// Files: resolve the per-type icon from the file name.
+			const lower = name.toLowerCase()
+			let icon = data.names[lower]
+			if (!icon) {
+				// e.g. README.md -> readme, LICENSE.txt -> license
+				icon = data.names[lower.replace(/\.[^.]+$/, '')]
+			}
+			if (!icon) {
+				const dot = lower.lastIndexOf('.')
+				const ext = dot > 0 ? lower.slice(dot + 1) : ''
+				icon = data.ext[ext] || 'file'
+			}
+			const svg = data.svg[icon] || data.svg.file
+
+			// Hide native preview and inject the colored icon.
 			iconWrap.querySelectorAll('.files-list__row-icon-preview-container, .material-design-icon')
 				.forEach((node) => { node.style.display = 'none' })
+
 			const holder = document.createElement('div')
-			holder.className = isDir ? 'totmin-file-icon totmin-file-icon--folder' : 'totmin-file-icon'
+			holder.className = 'totmin-file-icon'
 			holder.innerHTML = svg
 			iconWrap.appendChild(holder)
-			row.setAttribute('data-totmin-icon', '1')
+			row.setAttribute('data-totmin-icon', state)
 		})
 	}
 
