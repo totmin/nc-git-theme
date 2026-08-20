@@ -195,13 +195,13 @@
 #app-content-vue [data-cy-files-list-selection-actions] .totmin-batch-download-button:hover,
 #app-content-vue [data-cy-files-list-selection-actions] .totmin-batch-download-button:focus-visible {
 	background-color: var(--color-background-hover);
-	color: var(--color-primary); /* Neutral accent for a non-destructive action */
+	color: #98c379; /* waybar green — non-destructive action accent */
 }
 
 #app-content-vue [data-cy-files-list-selection-actions] .totmin-batch-delete-button:hover,
 #app-content-vue [data-cy-files-list-selection-actions] .totmin-batch-delete-button:focus-visible {
 	background-color: var(--color-background-hover);
-	color: var(--color-error-text); /* Danger color for text on hover */
+	color: #e06c75; /* waybar red — destructive action accent */
 }
 
 /* The selection bar auto-focuses its first button when it appears, which draws
