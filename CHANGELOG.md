@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.8 - 2026-08-20
+
+### Changed
+
+- Public share pages: the toolbar panel (`.files-list__header`) is hidden at
+  the share root, where it renders as an empty strip (the root breadcrumb is
+  already hidden). Guests inside a share subfolder keep the panel and their
+  breadcrumb navigation. Authenticated users are unaffected (`#body-public`
+  scoping).
+
 ## 1.0.7 - 2026-08-20
 
 ### Added

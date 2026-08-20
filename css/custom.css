@@ -104,6 +104,26 @@
 	display: none !important;
 }
 
+/* Public share pages: the toolbar panel (breadcrumbs + New/search/sort) is
+   only useful for authenticated users. On guest pages its only remaining
+   content is the breadcrumbs, and at the share root those contain just the
+   root crumb, which the rule above already hides — leaving an empty ~24px
+   strip. Hide the whole panel whenever there is no real crumb trail (i.e. no
+   .vue-crumb beyond the root one). Guests inside a share subfolder keep the
+   panel, so their breadcrumb navigation back to the root still works. */
+#body-public #app-content-vue .files-list__header:not(:has(.vue-crumb:not(:first-child))) {
+	display: none;
+}
+
+/* When the panel is hidden the table becomes the top of the card, but it is
+   styled to join the header (border-top: none, no top radius). Give it the
+   card frame again on those guest pages. Higher specificity + !important win
+   over the base rule below. */
+#body-public #app-content-vue .files-list__header:not(:has(.vue-crumb:not(:first-child))) ~ .files-list .files-list__table {
+	border-top: 1px solid var(--color-border) !important;
+	border-radius: 8px;
+}
+
 /* Public share pages: the footer (README card) keeps the same 1em rhythm
    between blocks as everywhere else on the page. */
 #app-content-vue .files-list .readmemd-footer-anchor .footermd {
