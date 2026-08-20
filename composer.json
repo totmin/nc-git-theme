@@ -1,0 +1,14 @@
+{
+    "name": "totmin/nc-totmin-theme",
+    "description": "GitHub-style theme for the Nextcloud Files app",
+    "type": "project",
+    "license": "AGPL-3.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "OCA\\NcTotminTheme\\": "lib/"
+        }
+    },
+    "require": {
+        "php": ">=8.1"
+    }
+}

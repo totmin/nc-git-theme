@@ -1,0 +1,192 @@
+/*
+ * nc-totmin-theme — GitHub-style theme for Nextcloud Files
+ * Target: Nextcloud 30+ (min-version 30). Selectors re-checked on NC 34.0.0.
+ * Only stable Nextcloud CSS variables are used -> adapts to light/dark themes.
+ * Scoped to .files-list* / .login-box / footer.guest-box -> other apps untouched.
+ */
+
+/* ============================================================
+   Files page: one centered card (1012px, GitHub-like)
+   ============================================================ */
+
+/* Toolbar (breadcrumbs + New / search / sort / grid) = top of the card.
+   The files app styles it scoped (.files-list__header[data-v-...]), so we
+   need a higher-specificity ancestor to win the cascade. */
+#app-content-vue .files-list__header {
+	width: 100%;
+	max-width: 1012px;
+	margin-block: 0;
+	margin-inline: auto;
+	background-color: var(--color-background-hover);
+	border: 1px solid var(--color-border) !important;
+	border-bottom: none !important;
+	border-radius: 8px 8px 0 0;
+}
+
+/* Toolbar filter dropdowns (Type / Modified / People) and the view
+   switcher (grid/list toggle) are hidden entirely */
+#app-content-vue .files-list__header [class^="_fileListFilters"],
+#app-content-vue .files-list__header .files-list__header-grid-button {
+	display: none;
+}
+
+/* The list scrolls internally; hide the scrollbar so it stops eating card
+   width (the 12px gutter that misaligned the table edges) */
+.files-list,
+.files-list__table {
+	scrollbar-width: none;
+}
+.files-list::-webkit-scrollbar,
+.files-list__table::-webkit-scrollbar {
+	display: none;
+}
+
+/* File list container: centered. width:100% keeps it stretched even when the
+   content is empty (no README card / empty folder), otherwise the flex column
+   collapses it to content width (~318px instead of 1012px). Stays transparent
+   so the README card (files_readmemd plugin) remains a separate card below */
+.files-list {
+	width: 100%;
+	max-width: 1012px;
+	margin-inline: auto;
+}
+
+/* Workspace / custom-header area continues the card background between the
+   toolbar and the table instead of leaving a page-background gap */
+.files-list__before {
+	margin-inline: 0;
+	background-color: var(--color-background-hover);
+	border-inline: 1px solid var(--color-border);
+}
+
+/* Table = bottom of the card */
+.files-list__table {
+	background-color: var(--color-background-hover);
+	border: 1px solid var(--color-border) !important;
+	border-top: none !important;
+	border-radius: 0 0 8px 8px;
+}
+
+/* Sticky table header/footer keep the card background while scrolling
+   (scoped app rule wins without the higher-specificity ancestor) */
+#app-content-vue .files-list__thead,
+#app-content-vue .files-list__tfoot,
+#app-content-vue .files-list__thead-overlay {
+	background-color: var(--color-background-hover);
+}
+
+/* Rows: 1px --color-border separators and hover --color-background-dark
+   are already the NC defaults; the last row closes the card */
+.files-list__tbody tr:last-child {
+	border-block-end: none;
+}
+
+/* Breadcrumbs: GitHub-style main-text color */
+.files-list__header .breadcrumb,
+.files-list__header .breadcrumb a {
+	color: var(--color-main-text) !important;
+}
+
+/* Public share pages: the root breadcrumb button ("Общедоступные ссылки")
+   is redundant — the share context is already obvious. Hide it; sub-folder
+   crumbs (if any) are kept. */
+#app-content-vue .files-list__header[class*="--public"] .vue-crumb:first-child,
+#app-content-vue .files-list__header[class*="--pub"] .vue-crumb:first-child {
+	display: none;
+}
+
+/* Public share pages: the native Text "rich workspace" renders the folder's
+   README.md at the top of the files block — the same content files_readmemd
+   already shows below the list. Hide it on guest pages only (body-public);
+   authorized users keep their workspace behavior. */
+#body-public #rich-workspace,
+#body-public .files-list__header-workspace {
+	display: none !important;
+}
+
+/* Public share pages: the footer (README card) keeps the same 1em rhythm
+   between blocks as everywhere else on the page. */
+#app-content-vue .files-list .readmemd-footer-anchor .footermd {
+	margin: 1em auto;
+}
+
+/* Grid view: the card background is applied on the container, so the
+   grid items stay transparent cards arranged inside it */
+.files-list--grid .files-list__table {
+	background-color: var(--color-background-hover);
+}
+
+/* ============================================================
+   Whole-page scroll: one document, one scrollbar (GitHub-style)
+   ============================================================ */
+
+/* The file list grows with its content instead of scrolling internally, so
+   #app-content-vue becomes the single page scroller. The files_readmemd
+   plugin detects `overflow: visible` at runtime and rebinds the virtual list
+   to that scroller; without the plugin the list simply renders in full. */
+#app-content-vue .files-list {
+	height: auto !important;
+	flex: 1 0 auto !important;
+	overflow: visible !important;
+}
+
+/* Breadcrumbs become a sticky sub-header (GitHub's repo file header): they
+   pin to the top of the page scroller while the project header card, the
+   file rows and the README card scroll under them. */
+#app-content-vue .files-list__header {
+	position: sticky;
+	top: 0;
+	z-index: 10;
+}
+
+/* When pinned, the sticky bar detaches from the card: give it a bottom edge
+   and round the bottom corners. The plugin toggles the class on the scroller. */
+#app-content-vue.readmemd-breadcrumbs-stuck .files-list__header {
+	border-bottom: 1px solid var(--color-border) !important;
+	border-radius: 0 0 8px 8px;
+}
+
+/* The table's own sticky header would fight the pinned breadcrumbs once the
+   list is no longer scrollable; let it scroll away with its rows. */
+#app-content-vue .files-list__thead,
+#app-content-vue .files-list__thead-overlay {
+	position: static !important;
+	z-index: auto;
+}
+
+/* The header wrapper keeps a consistent top rhythm even when the folder has
+   no HEADER.md (empty wrapper, margin only); with a header card the card
+   itself provides the gap down to the breadcrumbs. */
+.readmemd-header-anchor {
+	margin-top: 1em;
+}
+.readmemd-header-anchor .headermd {
+	margin: 0 auto 1em;
+}
+.readmemd-footer-anchor .footermd {
+	margin-bottom: 1em;
+}
+
+/* ============================================================
+   Login page: card in the same style
+   ============================================================ */
+
+/* Login form is <div class="guest-box login-box"> — the guest-box rule from
+   the theming app loads later, so bump specificity to win the cascade */
+.guest-box.login-box {
+	background-color: var(--color-background-hover);
+	border: 1px solid var(--color-border);
+	border-radius: 8px;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+	padding: 24px;
+}
+
+/* ============================================================
+   Hide the guest footer (slogan + "Create your own free account")
+   on non-authenticated pages: public share links and login.
+   layout.user.php (authenticated users) has no footer.guest-box.
+   ============================================================ */
+
+footer.guest-box {
+	display: none;
+}
