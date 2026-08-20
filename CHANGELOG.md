@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.2.0 - 2026-08-21
+
+### Added
+
+- Public share pages (guest UI): the header is stripped down to a single
+  "Download" button. The top-left logo + app title (`.header-start`), the
+  "⋯ More actions" menu and the avatar user-menu (triggers and their dropdown
+  panels) are hidden. Scoped to `#body-public` — authenticated users
+  (`layout.user.php`) keep the full header untouched. Pure CSS
+  (`css/custom.css`), no JS.
+
+## 1.0.9 - 2026-08-20
+
+### Added
+
+- Files app: the left navigation sidebar now starts **collapsed by default**
+  on desktop (mobile was already collapsed). The official
+  `@nextcloud/event-bus` `toggle-navigation` event is emitted from
+  `js/navigation.js` (window-level singleton bus, so the plain script reaches
+  the same bus the Files bundle subscribes to); a guarded click on the native
+  `.app-navigation-toggle` button is the fallback. The initial slide
+  transition is suppressed, so the page loads instantly with the sidebar
+  closed and only the floating hamburger visible. Collapsing is **one-shot**:
+  if the user reopens the sidebar during the session, it stays open. Scoped to
+  authenticated sessions on the Files app — other apps and public share pages
+  are unaffected.
+
 ## 1.0.8 - 2026-08-20
 
 ### Changed

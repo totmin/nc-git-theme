@@ -17,5 +17,6 @@ class InjectCssListener implements IEventListener {
 		Util::addStyle(Application::APP_ID, 'custom');
 		Util::addScript(Application::APP_ID, 'filetypes');
 		Util::addScript(Application::APP_ID, 'files');
+		Util::addScript(Application::APP_ID, 'navigation');
 	}
 }
