@@ -15,5 +15,6 @@ use OCP\Util;
 class InjectCssListener implements IEventListener {
 	public function handle(Event $event): void {
 		Util::addStyle(Application::APP_ID, 'custom');
+		Util::addScript(Application::APP_ID, 'files');
 	}
 }

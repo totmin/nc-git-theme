@@ -148,10 +148,108 @@
 
 /* The table's own sticky header would fight the pinned breadcrumbs once the
    list is no longer scrollable; let it scroll away with its rows. */
-#app-content-vue .files-list__thead,
-#app-content-vue .files-list__thead-overlay {
+#app-content-vue .files-list__thead {
 	position: static !important;
 	z-index: auto;
+}
+
+/* The selection overlay is rendered only while files are selected; lift it
+   above the (static) table so the batch actions are clickable. */
+#app-content-vue .files-list__thead-overlay {
+	position: relative;
+	z-index: 5;
+}
+
+/* While a selection is active, hide the sortable column headers so they cannot
+   steal clicks from the batch-action buttons; the checkbox column stays so
+   select-all keeps working. visibility (not display:none) preserves the thead
+   layout, so the table's negative margin does not slide the rows up under the
+   overlay. */
+#app-content-vue .files-list__table--with-thead-overlay .files-list__row-head > th:not(.files-list__row-checkbox) {
+	visibility: hidden;
+}
+
+/* The theme's direct "Download" and "Delete" buttons in the selection batch
+   bar (injected by js/files.js). They live inside the same flex row as the
+   native inline action buttons, so they match their look and stay on one
+   line. */
+#app-content-vue [data-cy-files-list-selection-actions] .totmin-batch-download-button,
+#app-content-vue [data-cy-files-list-selection-actions] .totmin-batch-delete-button {
+	display: flex;
+	align-items: center;
+	height: 34px;
+	min-height: 34px;
+	padding: 0 12px;
+	margin: 0; /* Flex container gap handles spacing */
+	font-size: 15px;
+	font-weight: 500;
+	line-height: normal;
+	color: var(--color-main-text);
+	background-color: var(--color-background-dark); /* Closest to native secondary button */
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+#app-content-vue [data-cy-files-list-selection-actions] .totmin-batch-download-button:hover,
+#app-content-vue [data-cy-files-list-selection-actions] .totmin-batch-download-button:focus-visible {
+	background-color: var(--color-background-hover);
+	color: var(--color-primary); /* Neutral accent for a non-destructive action */
+}
+
+#app-content-vue [data-cy-files-list-selection-actions] .totmin-batch-delete-button:hover,
+#app-content-vue [data-cy-files-list-selection-actions] .totmin-batch-delete-button:focus-visible {
+	background-color: var(--color-background-hover);
+	color: var(--color-error-text); /* Danger color for text on hover */
+}
+
+/* The selection bar auto-focuses its first button when it appears, which draws
+   a focus ring around the bar after every mouse selection. The bar is a
+   transient overlay, so suppress the ring (Nextcloud's focus rule uses
+   !important, which is why this needs !important too). */
+#app-content-vue [data-cy-files-list-selection-actions] button:focus,
+#app-content-vue [data-cy-files-list-selection-actions] button:focus-visible {
+	outline: none !important;
+	box-shadow: none !important;
+}
+
+/* Only the theme's [Download][Delete] pair is shown inline in the selection
+   bar. Native inline batch action buttons are hidden — but only inside the
+   .action-items row, which exists solely on authenticated layouts (the guest
+   bar has no such wrapper). The hidden elements still receive programmatic
+   clicks, and on narrow layouts the overflow menu keeps holding move/copy. */
+#app-content-vue [data-cy-files-list-selection-actions] .action-items > button.button-vue,
+#app-content-vue [data-cy-files-list-selection-actions] .action-items > .action-item:not(:last-child) {
+	display: none !important;
+}
+
+/* The native Download/Delete entries only need hiding inside the overflow
+   menu of authenticated layouts (the theme renders them directly). Scoped to
+   the popover so the guest's direct Download button — which has no
+   .action-items wrapper and is not in a popover — stays visible. */
+.v-popper__popper .files-list__row-actions-batch-download,
+.v-popper__popper .files-list__row-actions-batch-delete {
+	display: none !important;
+}
+
+/* On wide layouts (app-content >= 1024px, js/files.js toggles
+   .totmin-wide-batch) every action fits inline, so the overflow menu would
+   only repeat "Delete": hide it entirely. */
+#app-content-vue.totmin-wide-batch [data-cy-files-list-selection-actions] .action-items > .action-item {
+	display: none !important;
+}
+
+/* The batch action row must never wrap to a second line: when the buttons do
+   not fit the row scrolls horizontally instead of wrapping. */
+#app-content-vue [data-cy-files-list-selection-actions] .action-items {
+	flex-wrap: nowrap !important;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+#app-content-vue [data-cy-files-list-selection-actions] .action-items > * {
+	flex-shrink: 0;
 }
 
 /* The header wrapper keeps a consistent top rhythm even when the folder has
