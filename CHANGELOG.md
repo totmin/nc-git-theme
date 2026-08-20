@@ -2,14 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.2.2 - 2026-08-21
+
+### Changed
+
+- Guest header: the top-left logo + app title (`.header-start`) is **kept**
+  on public share pages. Only the "⋯ More actions" menu and the avatar
+  user-menu are hidden, so the header shows the logo on the left and a single
+  "Download" button on the right.
+
 ## 1.2.0 - 2026-08-21
 
 ### Added
 
-- Public share pages (guest UI): the header is stripped down to a single
-  "Download" button. The top-left logo + app title (`.header-start`), the
-  "⋯ More actions" menu and the avatar user-menu (triggers and their dropdown
-  panels) are hidden. Scoped to `#body-public` — authenticated users
+- Public share pages (guest UI): the header is simplified — the "⋯ More
+  actions" menu and the avatar user-menu (triggers and their dropdown panels)
+  are hidden, leaving the app logo on the left and a single "Download" button
+  on the right. Scoped to `#body-public` — authenticated users
   (`layout.user.php`) keep the full header untouched. Pure CSS
   (`css/custom.css`), no JS.
 

@@ -87,6 +87,209 @@
 	color: var(--color-main-text) !important;
 }
 
+/* ============================================================
+   Toolbar restyle: minimal "+" button + modern breadcrumb chips
+   ============================================================ */
+
+/* Toolbar inner spacing: breathe around the breadcrumbs, keep the card
+   centered via the existing margin on .files-list__header */
+#app-content-vue .files-list__header {
+	padding-block: 6px;
+	padding-inline: 8px 12px;
+}
+
+/* Room between the "+" button and the first breadcrumb chip (the native
+   flex gap is only the 4px grid baseline, which feels cramped) */
+#app-content-vue .files-list__header .upload-picker {
+	margin-inline-end: 8px;
+}
+
+/* ---- Upload button: icon-only "+" ----
+   The native NcActions button keeps its aria-label and popover menu, so all
+   upload/create functionality is preserved. font-size:0 hides the text label
+   (the SVG icon has an explicit size, so it is unaffected). The primary color
+   stays the standard NC primary element color. */
+#app-content-vue .files-list__header .upload-picker .action-item__menutoggle,
+body .files-list__header-upload-button--narrow .action-item__menutoggle {
+	width: 34px;
+	height: 34px;
+	min-width: 34px;
+	padding: 0;
+	font-size: 0;
+	line-height: 0;
+	border-radius: 8px;
+	background-color: var(--color-primary-element) !important;
+	color: var(--color-primary-text) !important;
+	box-shadow: none !important;
+}
+
+#app-content-vue .files-list__header .upload-picker .action-item__menutoggle:hover,
+body .files-list__header-upload-button--narrow .action-item__menutoggle:hover,
+#app-content-vue .files-list__header .upload-picker .action-item.action-item--open .action-item__menutoggle,
+body .files-list__header-upload-button--narrow .action-item.action-item--open .action-item__menutoggle {
+	background-color: var(--color-primary-element-hover) !important;
+}
+
+/* Keep the plus icon crisp and centered inside the compact button */
+#app-content-vue .files-list__header .upload-picker .action-item__menutoggle .material-design-icon,
+body .files-list__header-upload-button--narrow .action-item__menutoggle .material-design-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--color-primary-text);
+}
+
+#app-content-vue .files-list__header .upload-picker .action-item__menutoggle .material-design-icon svg,
+body .files-list__header-upload-button--narrow .action-item__menutoggle .material-design-icon svg {
+	width: 22px;
+	height: 22px;
+}
+
+/* ---- Breadcrumb chips: modern pill-style links ----
+   Intermediate crumbs are clickable links; the last crumb is the current
+   folder (NcActions with a caret + Share/Reload menu) and must not look
+   clickable. All native behavior (navigation, collapse, dnd, menu) stays. */
+
+/* Uniform height for the crumb row, in rhythm with the toolbar */
+#app-content-vue .files-list__header .vue-crumb {
+	height: 34px;
+}
+
+/* Intermediate crumbs: main-text color, medium weight, pill hover */
+#app-content-vue .files-list__header .vue-crumb:not(:last-child) .button-vue,
+#app-content-vue .files-list__header .vue-crumb:not(:last-child) .button-vue__text {
+	color: var(--color-main-text);
+	font-weight: 500;
+}
+#app-content-vue .files-list__header .vue-crumb:not(:last-child) .button-vue {
+	border-radius: 6px;
+	padding: 4px 10px;
+	transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+#app-content-vue .files-list__header .vue-crumb:not(:last-child) .button-vue:hover,
+#app-content-vue .files-list__header .vue-crumb:not(:last-child) .button-vue:focus {
+	background-color: var(--color-background-dark);
+	color: var(--color-main-text);
+}
+
+/* The collapsible "…" trigger (hidden middle crumbs) matches the chips */
+#app-content-vue .files-list__header .vue-crumb.dropdown .button-vue,
+#app-content-vue .files-list__header .vue-crumb.dropdown .action-item__menutoggle {
+	border-radius: 6px;
+	padding: 4px 10px;
+}
+
+/* Current folder crumb: semibold, slightly larger, no hover pill.
+   The last crumb is an NcActions (div.action-item > button.action-item__menutoggle),
+   not a .button-vue link, so it needs its own height/alignment to sit on the
+   same baseline as the intermediate chips. */
+#app-content-vue .files-list__header .vue-crumb:last-child .button-vue,
+#app-content-vue .files-list__header .vue-crumb:not(.dropdown) .action-item .button-vue {
+	padding: 4px 10px;
+	color: var(--color-main-text);
+	font-weight: 600;
+	font-size: 15px;
+	border-radius: 6px;
+}
+
+#app-content-vue .files-list__header .vue-crumb:not(.dropdown) .action-item {
+	display: inline-flex;
+	align-items: center;
+	height: 34px;
+}
+
+#app-content-vue .files-list__header .vue-crumb:not(.dropdown) .action-item .action-item__menutoggle {
+	display: inline-flex;
+	align-items: center;
+	height: 34px;
+	min-height: 34px;
+	padding: 0 10px;
+	color: var(--color-main-text);
+	font-weight: 600;
+	font-size: 15px;
+	line-height: 34px;
+	border-radius: 6px;
+}
+
+/* Current crumb caret menu: subtle highlight only while open */
+#app-content-vue .files-list__header .vue-crumb:not(.dropdown) .action-item.action-item--open .action-item__menutoggle {
+	background-color: var(--color-background-dark);
+	color: var(--color-main-text);
+}
+
+/* Root folder: the only crumb is the current folder (an NcActions menu, since
+   the root is also the last crumb), which renders without the folder icon.
+   Re-add it via ::before (mask, currentColor, MdiFolder path) so the root
+   looks the same as every other folder. */
+#app-content-vue .files-list__header .vue-crumb:only-child .action-item__menutoggle {
+	column-gap: 6px; /* room between icon and label */
+}
+
+#app-content-vue .files-list__header .vue-crumb:only-child .action-item__menutoggle::before {
+	content: "";
+	flex-shrink: 0;
+	width: 20px;
+	height: 20px;
+	background-color: currentColor;
+	-webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/></svg>') center / contain no-repeat;
+	mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/></svg>') center / contain no-repeat;
+}
+
+/* Chevron separators (▸): smaller, muted, snug between chips */
+#app-content-vue .files-list__header .vue-crumb__separator {
+	margin: 0 2px;
+	color: var(--color-text-maxcontrast);
+}
+
+#app-content-vue .files-list__header .vue-crumb__separator svg {
+	width: 16px;
+	height: 16px;
+}
+
+/* ---- Overflow protection: long names / deep paths never escape the card ----
+   The breadcrumbs container already grows (flex:1 1 100%) and collapses the
+   middle crumbs into "…"; here we make every crumb truncate gracefully. */
+
+#app-content-vue .files-list__header .breadcrumb nav,
+#app-content-vue .files-list__header .breadcrumb .breadcrumb__crumbs {
+	min-width: 0;
+	max-width: 100%;
+}
+
+#app-content-vue .files-list__header .vue-crumb .button-vue__wrapper,
+#app-content-vue .files-list__header .vue-crumb .button-vue__text {
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* The current folder may hold very long names; cap it and truncate. The
+   native width measurement sets an inline max-width:210px only while it
+   recalculates, so this does not fight the collapse logic. */
+#app-content-vue .files-list__header .vue-crumb:last-child {
+	max-width: 300px;
+}
+
+/* Toolbar action buttons (search/sort): compact, matching the chips */
+#app-content-vue .files-list__header .files-list__header-actions {
+	gap: 4px;
+	flex-shrink: 0;
+}
+
+#app-content-vue .files-list__header .files-list__header-actions .button-vue,
+#app-content-vue .files-list__header .files-list__header-actions .action-item__menutoggle {
+	height: 34px;
+	border-radius: 8px;
+}
+
+#app-content-vue .files-list__header .files-list__header-actions .button-vue:hover,
+#app-content-vue .files-list__header .files-list__header-actions .button-vue:focus,
+#app-content-vue .files-list__header .files-list__header-actions .action-item__menutoggle:hover {
+	background-color: var(--color-background-dark);
+}
+
 /* Public share pages: the root breadcrumb button ("Общедоступные ссылки")
    is redundant — the share context is already obvious. Hide it; sub-folder
    crumbs (if any) are kept. */
@@ -332,5 +535,29 @@
    ============================================================ */
 
 footer.guest-box {
+	display: none;
+}
+
+/* ============================================================
+   Guest header (public share pages): logo + single Download
+   ============================================================ */
+
+/* Public share pages render a header (layout.public.php) with the
+   app logo + title on the left and Download / "⋯ More actions" /
+   avatar user-menu on the right. For guests we keep the logo on the
+   left and only the Download button on the right. Scoped to
+   #body-public (the guest body id) — authenticated users
+   (layout.user.php, body id body-user) keep the full header
+   untouched. */
+
+/* "⋯ More actions" menu and the avatar user-menu: the trigger
+   buttons and their dropdown panels are hidden together (the
+   dropdowns render inline inside these containers). The inner
+   #header-menu-* rules also cover any future teleport-to-body
+   case, since they stay descendants of #body-public. */
+#body-public #public-page-menu,
+#body-public #public-page-user-menu,
+#body-public #header-menu-public-page-menu,
+#body-public #header-menu-public-page-user-menu {
 	display: none;
 }
