@@ -185,12 +185,70 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 
+	/**
+	 * Replace the row preview / default icon with a per-type colored icon.
+	 * Rows are skipped once marked, so the observer cannot re-trigger itself.
+	 */
+	const syncIcons = () => {
+		const data = window.TOTMIN_FILE_ICONS
+		if (!data) {
+			return
+		}
+		document.querySelectorAll('.files-list__row').forEach((row) => {
+			if (row.getAttribute('data-totmin-icon') !== null) {
+				return
+			}
+			const name = row.getAttribute('data-cy-files-list-row-name')
+			const iconWrap = row.querySelector('.files-list__row-icon')
+			if (!name || iconWrap === null) {
+				return
+			}
+			const isDir = iconWrap.querySelector('.folder-icon') !== null
+				|| iconWrap.querySelector('.files-list__row-icon-preview') === null
+			let svg
+			if (isDir) {
+				svg = data.svg._folder
+			} else {
+				const lower = name.toLowerCase()
+				let icon = data.names[lower]
+				if (!icon) {
+					// e.g. README.md -> readme, LICENSE.txt -> license
+					icon = data.names[lower.replace(/\.[^.]+$/, '')]
+				}
+				if (!icon) {
+					const dot = lower.lastIndexOf('.')
+					const ext = dot > 0 ? lower.slice(dot + 1) : ''
+					icon = data.ext[ext] || 'file'
+				}
+				svg = data.svg[icon] || data.svg.file
+			}
+			if (!svg) {
+				return
+			}
+			iconWrap.querySelectorAll('.files-list__row-icon-preview-container, .material-design-icon')
+				.forEach((node) => { node.style.display = 'none' })
+			const holder = document.createElement('div')
+			holder.className = isDir ? 'totmin-file-icon totmin-file-icon--folder' : 'totmin-file-icon'
+			holder.innerHTML = svg
+			iconWrap.appendChild(holder)
+			row.setAttribute('data-totmin-icon', '1')
+		})
+	}
+
+	/**
+	 * Called on every DOM change: keep the batch bar and the file icons in sync.
+	 */
+	const onDomChange = () => {
+		syncBar()
+		syncIcons()
+	}
+
 	const target = appContent() ?? document.body
-	const observer = new MutationObserver(syncBar)
+	const observer = new MutationObserver(onDomChange)
 	observer.observe(target, { childList: true, subtree: true })
 	if (appContent() !== null) {
-		const widthObserver = new ResizeObserver(syncBar)
+		const widthObserver = new ResizeObserver(onDomChange)
 		widthObserver.observe(appContent())
 	}
-	syncBar()
+	onDomChange()
 })

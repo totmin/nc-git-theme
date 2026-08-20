@@ -266,6 +266,30 @@
 }
 
 /* ============================================================
+   File-type icons (injected by js/files.js, Gitea Material set)
+   ============================================================ */
+
+/* The colored per-type icon replaces the native preview image. The folder
+   variant is a monochrome octicon tinted with the theme's primary color. */
+#app-content-vue .files-list__row-icon .totmin-file-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+}
+
+#app-content-vue .files-list__row-icon .totmin-file-icon svg {
+	width: 32px;
+	height: 32px;
+	display: block;
+}
+
+#app-content-vue .files-list__row-icon .totmin-file-icon--folder svg {
+	color: var(--color-primary);
+}
+
+/* ============================================================
    Login page: card in the same style
    ============================================================ */
 
