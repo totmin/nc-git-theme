@@ -1,5 +1,5 @@
 /**
- * Totmin Theme — selection batch bar: render direct "Download" and "Delete"
+ * Git Theme — selection batch bar: render direct "Download" and "Delete"
  * actions for authenticated users.
  *
  * This used to live in the files_readmemd plugin (src/selection-delete.js),
@@ -23,12 +23,12 @@
 document.addEventListener('DOMContentLoaded', () => {
 	const BAR_SELECTOR = '[data-cy-files-list-selection-actions]'
 	const ITEMS_SELECTOR = '.action-items'
-	const DELETE_CLASS = 'totmin-batch-delete-button'
-	const DOWNLOAD_CLASS = 'totmin-batch-download-button'
+	const DELETE_CLASS = 'nc-git-batch-delete-button'
+	const DOWNLOAD_CLASS = 'nc-git-batch-download-button'
 	const NATIVE_DELETE = '.files-list__row-actions-batch-delete button'
 	const NATIVE_DOWNLOAD_BUTTON = 'button.files-list__row-actions-batch-download'
 	const NATIVE_DOWNLOAD_ENTRY = '.files-list__row-actions-batch-download button'
-	const WIDE_CLASS = 'totmin-wide-batch'
+	const WIDE_CLASS = 'nc-git-wide-batch'
 	const WIDE_BREAKPOINT = 1024
 
 	/**
@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	 * observer cannot re-trigger itself. Folders keep their native icon.
 	 */
 	const syncIcons = () => {
-		const data = window.TOTMIN_FILE_ICONS
+		const data = window.NC_GIT_FILE_ICONS
 		if (!data) {
 			return
 		}
@@ -213,18 +213,18 @@ document.addEventListener('DOMContentLoaded', () => {
 			// rows, so the previous marker must not let a stale icon linger when
 			// the row is reused for another file — reprocess whenever it differs.
 			const state = (isDir ? 'd:' : 'f:') + name
-			if (row.getAttribute('data-totmin-icon') === state) {
+			if (row.getAttribute('data-nc-git-icon') === state) {
 				return
 			}
 
 			// Reset the icon area to its native state before re-applying.
-			iconWrap.querySelectorAll('.totmin-file-icon').forEach((node) => node.remove())
+			iconWrap.querySelectorAll('.nc-git-file-icon').forEach((node) => node.remove())
 			iconWrap.querySelectorAll('.files-list__row-icon-preview-container, .material-design-icon')
 				.forEach((node) => { node.style.display = '' })
 
 			if (isDir) {
 				// Folders keep Nextcloud's native folder icon.
-				row.setAttribute('data-totmin-icon', state)
+				row.setAttribute('data-nc-git-icon', state)
 				return
 			}
 
@@ -247,10 +247,10 @@ document.addEventListener('DOMContentLoaded', () => {
 				.forEach((node) => { node.style.display = 'none' })
 
 			const holder = document.createElement('div')
-			holder.className = 'totmin-file-icon'
+			holder.className = 'nc-git-file-icon'
 			holder.innerHTML = svg
 			iconWrap.appendChild(holder)
-			row.setAttribute('data-totmin-icon', state)
+			row.setAttribute('data-nc-git-icon', state)
 		})
 	}
 

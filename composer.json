@@ -1,11 +1,11 @@
 {
-    "name": "totmin/nc-totmin-theme",
+    "name": "totmin/nc-git-theme",
     "description": "GitHub-style theme for the Nextcloud Files app",
     "type": "project",
     "license": "AGPL-3.0-or-later",
     "autoload": {
         "psr-4": {
-            "OCA\\NcTotminTheme\\": "lib/"
+            "OCA\\NcGitTheme\\": "lib/"
         }
     },
     "require": {

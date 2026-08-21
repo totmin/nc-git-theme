@@ -1,5 +1,5 @@
 /*
- * nc-totmin-theme — GitHub-style theme for Nextcloud Files
+ * nc-git-theme — GitHub-style theme for Nextcloud Files
  * Target: Nextcloud 30+ (min-version 30). Selectors re-checked on NC 34.0.0.
  * Only stable Nextcloud CSS variables are used -> adapts to light/dark themes.
  * Scoped to .files-list* / .login-box / footer.guest-box -> other apps untouched.
@@ -396,8 +396,8 @@ body .files-list__header-upload-button--narrow .action-item__menutoggle .materia
    bar (injected by js/files.js). They live inside the same flex row as the
    native inline action buttons, so they match their look and stay on one
    line. */
-#app-content-vue [data-cy-files-list-selection-actions] .totmin-batch-download-button,
-#app-content-vue [data-cy-files-list-selection-actions] .totmin-batch-delete-button {
+#app-content-vue [data-cy-files-list-selection-actions] .nc-git-batch-download-button,
+#app-content-vue [data-cy-files-list-selection-actions] .nc-git-batch-delete-button {
 	display: flex;
 	align-items: center;
 	height: 34px;
@@ -415,14 +415,14 @@ body .files-list__header-upload-button--narrow .action-item__menutoggle .materia
 	white-space: nowrap;
 }
 
-#app-content-vue [data-cy-files-list-selection-actions] .totmin-batch-download-button:hover,
-#app-content-vue [data-cy-files-list-selection-actions] .totmin-batch-download-button:focus-visible {
+#app-content-vue [data-cy-files-list-selection-actions] .nc-git-batch-download-button:hover,
+#app-content-vue [data-cy-files-list-selection-actions] .nc-git-batch-download-button:focus-visible {
 	background-color: var(--color-background-hover);
 	color: #98c379; /* waybar green — non-destructive action accent */
 }
 
-#app-content-vue [data-cy-files-list-selection-actions] .totmin-batch-delete-button:hover,
-#app-content-vue [data-cy-files-list-selection-actions] .totmin-batch-delete-button:focus-visible {
+#app-content-vue [data-cy-files-list-selection-actions] .nc-git-batch-delete-button:hover,
+#app-content-vue [data-cy-files-list-selection-actions] .nc-git-batch-delete-button:focus-visible {
 	background-color: var(--color-background-hover);
 	color: #e06c75; /* waybar red — destructive action accent */
 }
@@ -457,9 +457,9 @@ body .files-list__header-upload-button--narrow .action-item__menutoggle .materia
 }
 
 /* On wide layouts (app-content >= 1024px, js/files.js toggles
-   .totmin-wide-batch) every action fits inline, so the overflow menu would
+   .nc-git-wide-batch) every action fits inline, so the overflow menu would
    only repeat "Delete": hide it entirely. */
-#app-content-vue.totmin-wide-batch [data-cy-files-list-selection-actions] .action-items > .action-item {
+#app-content-vue.nc-git-wide-batch [data-cy-files-list-selection-actions] .action-items > .action-item {
 	display: none !important;
 }
 
@@ -495,7 +495,7 @@ body .files-list__header-upload-button--narrow .action-item__menutoggle .materia
 /* The colored per-type icon replaces the native preview image. Sized to the
    native icon column (min() caps the huge grid preview size), so round icons
    never get clipped by the row's overflow:hidden cell. */
-#app-content-vue .files-list__row-icon .totmin-file-icon {
+#app-content-vue .files-list__row-icon .nc-git-file-icon {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -503,7 +503,7 @@ body .files-list__header-upload-button--narrow .action-item__menutoggle .materia
 	height: min(var(--icon-preview-size), 32px);
 }
 
-#app-content-vue .files-list__row-icon .totmin-file-icon svg {
+#app-content-vue .files-list__row-icon .nc-git-file-icon svg {
 	width: 100%;
 	height: 100%;
 	display: block;

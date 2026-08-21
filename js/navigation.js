@@ -1,5 +1,5 @@
 /**
- * Totmin Theme — Files app navigation starts collapsed on load.
+ * Git Theme — Files app navigation starts collapsed on load.
  *
  * The Files sidebar is the Vue `NcAppNavigation` component (@nextcloud/vue),
  * mounted inside `NcContent`. On desktop it mounts open; the collapsed state

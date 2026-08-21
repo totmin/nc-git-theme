@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace OCA\NcTotminTheme\AppInfo;
+namespace OCA\NcGitTheme\AppInfo;
 
-use OCA\NcTotminTheme\Listener\InjectCssListener;
+use OCA\NcGitTheme\Listener\InjectCssListener;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -13,7 +13,7 @@ use OCP\AppFramework\Http\Events\BeforeLoginTemplateRenderedEvent;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 
 class Application extends App implements IBootstrap {
-	public const APP_ID = 'nc-totmin-theme';
+	public const APP_ID = 'nc-git-theme';
 
 	public function __construct(array $urlParams = []) {
 		parent::__construct(self::APP_ID, $urlParams);

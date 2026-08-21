@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace OCA\NcTotminTheme\Listener;
+namespace OCA\NcGitTheme\Listener;
 
-use OCA\NcTotminTheme\AppInfo\Application;
+use OCA\NcGitTheme\AppInfo\Application;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Util;

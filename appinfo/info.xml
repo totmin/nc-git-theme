@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <info>
-    <id>nc-totmin-theme</id>
-    <name>Totmin Theme</name>
+    <id>nc-git-theme</id>
+    <name>Git Theme</name>
     <summary>GitHub-style theme for the Nextcloud Files app</summary>
     <description><![CDATA[GitHub-style theme for the Nextcloud Files app: the file list (toolbar + table) is wrapped in a single centered 1012px card, harmonized with the README card rendered by the files_readmemd plugin. The login page gets the same card look and the guest footer (slogan + "Create your own free account") is hidden on non-authenticated pages. Only stable Nextcloud CSS variables are used, so both light and dark themes adapt automatically.]]></description>
     <version>1.2.2</version>
     <licence>agpl</licence>
     <author mail="mat@totmin.local" homepage="https://totmin.local">mat</author>
-    <namespace>NcTotminTheme</namespace>
+    <namespace>NcGitTheme</namespace>
     <category>customization</category>
     <types>
         <filesystem/>
     </types>
     <documentation>
-        <developer>https://github.com/mat/nc-totmin-theme</developer>
+        <developer>https://github.com/totmin/nc-git-theme</developer>
     </documentation>
     <nextcloud min-version="30" max-version="35"/>
 </info>
