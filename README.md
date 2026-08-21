@@ -23,6 +23,15 @@ variables are used, so both light and dark themes adapt automatically.
   "Download" button remain.
 - **Light / dark** — driven entirely by Nextcloud CSS variables.
 
+## Screenshot
+
+<p align="center">
+  <img src="images/files-view.png" alt="nc-git-theme — Nextcloud Files view in GitHub style" width="720">
+</p>
+
+> The Files list rendered as a centered 1012px card, with per-type file icons
+> and a collapsed sidebar.
+
 ## Requirements
 
 - Nextcloud `30` – `35`
