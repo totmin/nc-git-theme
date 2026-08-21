@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.1 - 2026-08-21
+
+### Changed
+
+- Trashbin: hide the "Modified" and "Deleted by" columns — redundant in
+  personal storage (deleted-by is always the current user). Keeps checkbox,
+  name, restore, size, original path and deleted date.
+
 ## 1.0.0 - 2026-08-21
 
 Initial public release.

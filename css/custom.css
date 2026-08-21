@@ -561,3 +561,18 @@ footer.guest-box {
 #body-public #header-menu-public-page-user-menu {
 	display: none;
 }
+
+/* ============================================================
+   Trashbin: minimal columns
+   ============================================================ */
+
+/* The trashbin reuses the Files table but registers extra columns.
+   "Modified" (mtime) is redundant with "Deleted" and "Deleted by" is
+   always the current user in personal storage, so both are hidden.
+   Scoped to the trashbin via its unique column class (:has hook); the
+   normal Files view has no such class and keeps both columns. Rows are
+   flex, so display:none removes a column cleanly. */
+#app-content-vue:has(.files-list__row-trashbin-files_trashbin--deleted-by) .files-list__row-mtime,
+#app-content-vue .files-list__row-trashbin-files_trashbin--deleted-by {
+	display: none;
+}
