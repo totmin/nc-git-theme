@@ -4,7 +4,7 @@ GitHub-style theme for the Nextcloud **Files** app.
 
 The file list (breadcrumbs + toolbar + table) is wrapped in a single centered
 1012px card, harmonized with the README card rendered by the
-`files_readmemd` plugin. The login page gets the same card look, and the guest
+[`files_readmemd`](https://github.com/totmin/files_readmemd) plugin. The login page gets the same card look, and the guest
 footer is hidden on non-authenticated pages. Only stable Nextcloud CSS
 variables are used, so both light and dark themes adapt automatically.
 
@@ -45,6 +45,12 @@ To disable:
 ```sh
 php occ app:disable nc-git-theme
 ```
+
+## Related
+
+- [`files_readmemd`](https://github.com/totmin/files_readmemd) — fork of the
+  README-card plugin this theme harmonizes with (renders the README card below
+  the Files list).
 
 ## License
 
