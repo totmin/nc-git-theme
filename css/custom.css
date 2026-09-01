@@ -609,24 +609,31 @@ footer.guest-box {
 /* Cell borders + padding — exact GitHub replica:
    6px 13px padding, 1px solid on all four sides, SAME colour for
    every border (no outer-frame distinction). --color-background-darker
-   (219 grey) maps to GitHub's --borderColor-default (#d1d9e0 ≈ 217). */
+   (219 grey) maps to GitHub's --borderColor-default (#d1d9e0 ≈ 217).
+   color is forced back to --color-main-text because the Files app's
+   own list rule (.files-list td/th { color: var(--color-text-maxcontrast) })
+   bleeds onto the markdown table and washes the text out to grey. */
 #app-content-vue .files-list .markdown-body table th,
 #app-content-vue .files-list .markdown-body table td {
 	padding: 6px 13px;
 	border: 1px solid var(--color-background-darker);
+	color: var(--color-main-text);
 }
 
 /* Row separator + base background — GitHub uses --borderColor-muted
    (same base colour, ~70% alpha) for tr border-top, and --bgColor-default
-   for the row fill. --color-border (237 grey) is the muted equivalent;
-   --color-background-darker (219) is the base row background. */
+   (white) for the row fill. --color-main-background (white) is the base
+   row background; the row separator uses --color-background-darker (219)
+   so each row is clearly delimited on the white rows — GitHub's rows read
+   as distinct horizontal bands, which is what makes the table scannable. */
 #app-content-vue .files-list .markdown-body table tr {
-	background-color: var(--color-background-darker, #fff);
-	border-top: 1px solid var(--color-border);
+	background-color: var(--color-main-background);
+	border-top: 1px solid var(--color-background-darker);
 }
 
-/* Zebra striping on even rows — GitHub's --bgColor-muted (#f6f8fa ≈ 246 grey)
-   maps to NC's --color-background-hover (245 grey). */
+/* Zebra striping on even rows — GitHub's --bgColor-muted (#f6f8fa ≈ 246
+   grey) maps to NC's --color-background-hover (245 grey): a barely darker
+   light grey that reads as GitHub's subtle striping on white rows. */
 #app-content-vue .files-list .markdown-body table tr:nth-child(2n) {
 	background-color: var(--color-background-hover);
 }
