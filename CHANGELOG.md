@@ -18,13 +18,14 @@ All notable changes to this project will be documented in this file.
 - README tables are now a faithful replica of github.com's rendered
   markdown tables: `6px 13px` cell padding, a uniform `1px` border on all
   four sides of every cell (one shared grey, no separate outer frame),
-  `th` weight 600, a muted `tr` top border, zebra striping and
-  `font-variant: tabular-nums`. Each rule maps to the nearest Nextcloud
-  colour token (`--color-background-darker`, `--color-border`,
-  `--color-background-hover`) so it works in both light and dark themes.
-  Previously the plugin's own stylesheet that ships these rules is only
-  loaded inside the Files app, not on public-share pages, so the cells had
-  zero padding and no borders.
+  `th` weight 600 with `--color-main-text` (the Files app washes list text
+  to grey; we force it back), white base rows (`--color-main-background`)
+  with a `1px` `--color-background-darker` separator per row, subtle zebra
+  striping (`--color-background-hover`) and `font-variant: tabular-nums`.
+  Each rule maps to the nearest Nextcloud colour token so it works in both
+  light and dark themes. Previously the plugin's own stylesheet that ships
+  these rules is only loaded inside the Files app, not on public-share
+  pages, so the cells had zero padding and no borders.
 - Readability of README text: `.markdown-body` uses GitHub's real system
   font stack, `15px`/`1.5` metrics, weight 400 and `-webkit-font-smoothing:
   antialiased` + `text-rendering: optimizeLegibility` so the text renders
