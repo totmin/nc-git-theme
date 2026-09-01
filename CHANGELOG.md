@@ -15,27 +15,21 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- README tables now use GitHub's full look inside the files_readmemd cards:
-  6x13 cell padding, 1px grid lines on every cell (the vertical column
-  separators), a top border per row, and zebra striping via Nextcloud CSS
-  variables (works in both light and dark themes). Previously the card
-  stylesheet that ships these rules is only loaded inside the Files app,
-  not on public-share pages, so the cells had zero padding and no borders.
+- README tables are now a faithful replica of github.com's rendered
+  markdown tables: `6px 13px` cell padding, a uniform `1px` border on all
+  four sides of every cell (one shared grey, no separate outer frame),
+  `th` weight 600, a muted `tr` top border, zebra striping and
+  `font-variant: tabular-nums`. Each rule maps to the nearest Nextcloud
+  colour token (`--color-background-darker`, `--color-border`,
+  `--color-background-hover`) so it works in both light and dark themes.
+  Previously the plugin's own stylesheet that ships these rules is only
+  loaded inside the Files app, not on public-share pages, so the cells had
+  zero padding and no borders.
 - Readability of README text: `.markdown-body` uses GitHub's real system
   font stack, `15px`/`1.5` metrics, weight 400 and `-webkit-font-smoothing:
   antialiased` + `text-rendering: optimizeLegibility` so the text renders
   as crisp and legible as on github.com (instead of Nextcloud's narrower
   stack with subpixel rendering on Linux).
-- The table's outer frame (left/right/top/bottom edges) now uses a contrast
-  colour (`--color-border-maxcontrast`). The card background and the stock
-  grid share nearly the same grey (`--color-background-hover` 245 vs
-  `--color-border` 237), which made the table edges vanish; the bordered
-  frame makes the whole table read as one distinct block like on GitHub.
-- Inner row/column grid raised to `--color-background-darker` (219 grey) so
-  the horizontal row separators and vertical column separators are clearly
-  visible against the `--color-background-hover` (245) card fill — rows no
-  longer run together and the right edge reads as a clean grid line. Zebra
-  striping is unchanged.
 
 ## 1.0.1 - 2026-08-21
 
