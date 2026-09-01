@@ -605,26 +605,30 @@ footer.guest-box {
    top border per row. The files_readmemd plugin ships these rules in its
    own stylesheet, but that stylesheet is only loaded in the Files app
    (apps/files_create), not on public-share pages — so we re-apply it
-   scoped to our pair of cards. Uses Nextcloud vars so both themes work. */
+   scoped to our pair of cards. Uses Nextcloud vars so both themes work.
+   The inner grid uses --color-background-darker (219 grey) instead of
+   --color-border (237): the card fills with --color-background-hover
+   (245), so the stock border is nearly invisible and rows/columns run
+   together. The darker line keeps the rows apart on any theme. */
 #app-content-vue .files-list .markdown-body table th,
 #app-content-vue .files-list .markdown-body table td {
 	padding: 6px 13px;
-	border: 1px solid var(--color-border);
+	border: 1px solid var(--color-background-darker);
 }
 
 #app-content-vue .files-list .markdown-body table tr {
-	border-top: 1px solid var(--color-border);
+	border-top: 1px solid var(--color-background-darker);
 }
 
 #app-content-vue .files-list .markdown-body table tr:nth-child(2n) td {
 	background-color: var(--color-background-hover);
 }
 
-/* The card fills with --color-background-hover while the grid uses
-   --color-border (237 vs 245 grey), so the outer left edge of the table
-   vanishes into the card background. Give the outer frame of the table a
-   contrast colour (border-maxcontrast) so the whole table reads as a
-   bordered block, exactly like GitHub's rendered tables. */
+/* The card fills with --color-background-hover (245 grey) while the inner
+   grid uses --color-background-darker (219 grey). The outer frame of the
+   table gets a stronger contrast colour (--color-border-maxcontrast) so
+   the whole table reads as one bordered block separated from the card,
+   like GitHub's rendered tables. */
 #app-content-vue .files-list .markdown-body table th:first-child,
 #app-content-vue .files-list .markdown-body table td:first-child {
 	border-left: 1px solid var(--color-border-maxcontrast);

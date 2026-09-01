@@ -27,11 +27,15 @@ All notable changes to this project will be documented in this file.
   as crisp and legible as on github.com (instead of Nextcloud's narrower
   stack with subpixel rendering on Linux).
 - The table's outer frame (left/right/top/bottom edges) now uses a contrast
-  colour (`--color-border-maxcontrast`). The card background and the grid
-  share nearly the same grey (`--color-background-hover` 245 vs
-  `--color-border` 237), which made the left edge of the table vanish; the
-  bordered frame makes the whole table read as a distinct block like on
-  GitHub. The soft inner grid and zebra striping are unchanged.
+  colour (`--color-border-maxcontrast`). The card background and the stock
+  grid share nearly the same grey (`--color-background-hover` 245 vs
+  `--color-border` 237), which made the table edges vanish; the bordered
+  frame makes the whole table read as one distinct block like on GitHub.
+- Inner row/column grid raised to `--color-background-darker` (219 grey) so
+  the horizontal row separators and vertical column separators are clearly
+  visible against the `--color-background-hover` (245) card fill — rows no
+  longer run together and the right edge reads as a clean grid line. Zebra
+  striping is unchanged.
 
 ## 1.0.1 - 2026-08-21
 
