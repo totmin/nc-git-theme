@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.2 - 2026-09-01
+
+### Fixed
+
+- README markdown tables in the files_readmemd header/footer cards collapsed
+  into 44px flex blobs inside the file card. The Files app scopes its
+  list styles (`tr`/`tbody`/`td`/`th` are `display: flex`, cells
+  `width: var(--row-height)`) to the whole `.files-list` container, which
+  also hit the plugin's rendered tables. Restore real table layout for
+  every `.markdown-body` table; the file list's own flex table is untouched.
+
+### Changed
+
+- README tables now use GitHub's full look inside the files_readmemd cards:
+  6x13 cell padding, 1px grid lines on every cell (the vertical column
+  separators), a top border per row, and zebra striping via Nextcloud CSS
+  variables (works in both light and dark themes). Previously the card
+  stylesheet that ships these rules is only loaded inside the Files app,
+  not on public-share pages, so the cells had zero padding and no borders.
+- Readability of README text: `.markdown-body` uses GitHub's real system
+  font stack, `15px`/`1.5` metrics, weight 400 and `-webkit-font-smoothing:
+  antialiased` + `text-rendering: optimizeLegibility` so the text renders
+  as crisp and legible as on github.com (instead of Nextcloud's narrower
+  stack with subpixel rendering on Linux).
+
 ## 1.0.1 - 2026-08-21
 
 ### Changed
