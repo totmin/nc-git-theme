@@ -563,23 +563,22 @@ footer.guest-box {
 }
 
 /* ============================================================
-   README tables (files_readmemd header/footer cards)
+   README tables — GitHub-faithful rendering
    ============================================================ */
 
-/* The Files app scopes its list styles to the whole list container
-   (.files-list[data-v-...] tr / tbody / td / th are display:flex with
-   td/th width:var(--row-height)), so the rules also hit the markdown
-   tables the files_readmemd plugin renders inside the card and collapse
-   them into a stack of 44px flex blobs. Scoped to .markdown-body (the
-   plugin's GitHub-style renderer): the file list's own table is flex by
-   design and stays untouched, and the Text workspace editor keeps its
-   native interactive table rendering. */
+/* Restore real table layout: the Files app scopes its flex list styles
+   to the whole .files-list container, which also hits markdown tables
+   the files_readmemd plugin renders inside the card. Scoped to
+   .markdown-body the file list's own table and Text editor stay
+   untouched. */
 #app-content-vue .files-list .markdown-body table {
 	display: table;
-	width: 100%;
-	max-width: 100%;
 	table-layout: auto;
 	border-collapse: collapse;
+	width: 100%;
+	max-width: 100%;
+	overflow: auto;
+	font-variant: tabular-nums;
 }
 
 #app-content-vue .files-list .markdown-body table thead,
@@ -600,51 +599,41 @@ footer.guest-box {
 	white-space: normal;
 }
 
-/* GitHub-style table skin: real grid lines (the vertical column
-   separators the user looks for), 6x13 cell padding, zebra rows and a
-   top border per row. The files_readmemd plugin ships these rules in its
-   own stylesheet, but that stylesheet is only loaded in the Files app
-   (apps/files_create), not on public-share pages — so we re-apply it
-   scoped to our pair of cards. Uses Nextcloud vars so both themes work.
-   The inner grid uses --color-background-darker (219 grey) instead of
-   --color-border (237): the card fills with --color-background-hover
-   (245), so the stock border is nearly invisible and rows/columns run
-   together. The darker line keeps the rows apart on any theme. */
+/* --- GitHub's actual table rules (light theme mapping) --- */
+
+/* th: GitHub sets font-weight:600 (body default is 400). */
+#app-content-vue .files-list .markdown-body table th {
+	font-weight: 600;
+}
+
+/* Cell borders + padding — exact GitHub replica:
+   6px 13px padding, 1px solid on all four sides, SAME colour for
+   every border (no outer-frame distinction). --color-background-darker
+   (219 grey) maps to GitHub's --borderColor-default (#d1d9e0 ≈ 217). */
 #app-content-vue .files-list .markdown-body table th,
 #app-content-vue .files-list .markdown-body table td {
 	padding: 6px 13px;
 	border: 1px solid var(--color-background-darker);
 }
 
+/* Row separator + base background — GitHub uses --borderColor-muted
+   (same base colour, ~70% alpha) for tr border-top, and --bgColor-default
+   for the row fill. --color-border (237 grey) is the muted equivalent;
+   --color-background-darker (219) is the base row background. */
 #app-content-vue .files-list .markdown-body table tr {
-	border-top: 1px solid var(--color-background-darker);
+	background-color: var(--color-background-darker, #fff);
+	border-top: 1px solid var(--color-border);
 }
 
-#app-content-vue .files-list .markdown-body table tr:nth-child(2n) td {
+/* Zebra striping on even rows — GitHub's --bgColor-muted (#f6f8fa ≈ 246 grey)
+   maps to NC's --color-background-hover (245 grey). */
+#app-content-vue .files-list .markdown-body table tr:nth-child(2n) {
 	background-color: var(--color-background-hover);
 }
 
-/* The card fills with --color-background-hover (245 grey) while the inner
-   grid uses --color-background-darker (219 grey). The outer frame of the
-   table gets a stronger contrast colour (--color-border-maxcontrast) so
-   the whole table reads as one bordered block separated from the card,
-   like GitHub's rendered tables. */
-#app-content-vue .files-list .markdown-body table th:first-child,
-#app-content-vue .files-list .markdown-body table td:first-child {
-	border-left: 1px solid var(--color-border-maxcontrast);
-}
-
-#app-content-vue .files-list .markdown-body table th:last-child,
-#app-content-vue .files-list .markdown-body table td:last-child {
-	border-right: 1px solid var(--color-border-maxcontrast);
-}
-
-#app-content-vue .files-list .markdown-body table thead th {
-	border-top: 1px solid var(--color-border-maxcontrast);
-}
-
-#app-content-vue .files-list .markdown-body table tbody tr:last-child td {
-	border-bottom: 1px solid var(--color-border-maxcontrast);
+/* Inline images inside tables: transparent background. */
+#app-content-vue .files-list .markdown-body table img {
+	background-color: rgba(0, 0, 0, 0);
 }
 
 /* ============================================================
