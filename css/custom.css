@@ -662,6 +662,17 @@ footer.guest-box {
 	text-rendering: optimizeLegibility;
 }
 
+/* --- Code blocks --- */
+
+/* The files_readmemd plugin ships `.markdown-body pre code { font-size:
+   0.875em }`, which shrinks code inside a block TWICE (pre is already
+   0.875em), so block code lands at ~11.5px. GitHub keeps pre code at 100%
+   of the pre size. Reset it so block code matches the block container and
+   stays readable. */
+#app-content-vue .files-list .markdown-body pre code {
+	font-size: 100%;
+}
+
 /* ============================================================
    Trashbin: minimal columns
    ============================================================ */
