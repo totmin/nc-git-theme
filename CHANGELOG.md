@@ -26,6 +26,12 @@ All notable changes to this project will be documented in this file.
   antialiased` + `text-rendering: optimizeLegibility` so the text renders
   as crisp and legible as on github.com (instead of Nextcloud's narrower
   stack with subpixel rendering on Linux).
+- The table's outer frame (left/right/top/bottom edges) now uses a contrast
+  colour (`--color-border-maxcontrast`). The card background and the grid
+  share nearly the same grey (`--color-background-hover` 245 vs
+  `--color-border` 237), which made the left edge of the table vanish; the
+  bordered frame makes the whole table read as a distinct block like on
+  GitHub. The soft inner grid and zebra striping are unchanged.
 
 ## 1.0.1 - 2026-08-21
 
