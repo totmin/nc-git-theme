@@ -55,6 +55,30 @@ To disable:
 php occ app:disable nc-git-theme
 ```
 
+## Native folder description
+
+Nextcloud's Text app renders the folder's `README.md` inline in the Files list
+(the "rich workspace", `#rich-workspace`). The theme hides it everywhere: the
+same content is already shown as a GitHub-style card by `files_readmemd`, and
+hiding it with CSS guarantees it never flashes while the addon is still
+loading.
+
+Hiding it with CSS still leaves the workspace component mounted — it keeps
+fetching the README and opens a collaboration session in a hidden node. To skip
+that work entirely, disable folder descriptions in the Text app instead:
+
+```sh
+# instance-wide
+php occ config:app:set text workspace_available --value=false --type=boolean
+
+# or per user
+php occ user:setting <uid> text workspace_enabled false
+```
+
+Both are official Text app settings; `files_readmemd` is unaffected because it
+reads the README file directly. The theme's CSS rule stays useful as a safety
+net, so the setting is optional.
+
 ## Related
 
 - [`files_readmemd`](https://github.com/totmin/files_readmemd) — fork of the

@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.3 - 2026-09-15
+
+### Fixed
+
+- The native Text app "rich workspace" — Nextcloud's standard rendering of a
+  folder's `README.md` (`#rich-workspace`) — was only hidden on public share
+  pages. Authenticated users therefore saw it duplicate the `files_readmemd`
+  card, and briefly flash before the addon mounted. It is now hidden on every
+  page, so only the theme's GitHub-style card is shown.
+- The workspace is matched by its stable container id. Its editor's Vue scope
+  attribute (`data-v-…`) is deliberately not used as a selector, because those
+  build hashes are regenerated on every Text app update.
+
 ## 1.0.2 - 2026-09-01
 
 ### Fixed

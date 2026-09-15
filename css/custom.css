@@ -298,12 +298,34 @@ body .files-list__header-upload-button--narrow .action-item__menutoggle .materia
 	display: none;
 }
 
-/* Public share pages: the native Text "rich workspace" renders the folder's
-   README.md at the top of the files block — the same content files_readmemd
-   already shows below the list. Hide it on guest pages only (body-public);
-   authorized users keep their workspace behavior. */
-#body-public #rich-workspace,
-#body-public .files-list__header-workspace {
+/* ============================================================
+   Native Text "rich workspace" — hidden on every page
+   ============================================================ */
+
+/* The Text app renders the folder's README.md inline in the Files list
+   (`#rich-workspace`, mounted through its "workspace" file-list header). It
+   holds the same content files_readmemd already renders as a GitHub-style
+   card, so the two would duplicate — and the native one appears before the
+   addon has fetched and rendered its card. Hide it for everyone, guests and
+   authenticated users alike, so only the theme's card is ever visible.
+ *
+ * This stylesheet is injected in <head> (BeforeTemplateRenderedEvent), i.e.
+ * before the Files/Text bundles mount, so the workspace cannot flash while the
+ * addon is still loading. `!important` wins the cascade against the Text app's
+ * scoped rules.
+ *
+ * `#rich-workspace` is the Text app's stable container id. Its inner editor
+ * (`.editor`) carries a Vue scope attribute (`data-v-…`) that is regenerated
+ * on every Text app build, so it must never be used as a selector — the
+ * container rule below already hides it.
+ *
+ * `.files-list__header-workspace` is the older (NC 30–33) mount wrapper, kept
+ * for compatibility. The last selector is a safety net for the editor itself,
+ * scoped to the file list's workspace area so the real Text editor (opened for
+ * a `.md` file) is never touched. */
+#rich-workspace,
+.files-list__header-workspace,
+#app-content-vue .files-list__before .editor {
 	display: none !important;
 }
 
