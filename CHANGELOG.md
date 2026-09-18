@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.4 - 2026-09-18
+
+### Fixed
+
+- README tables wider than the file card (e.g. the "2. Образы" table of the
+  Stenographer README, whose `sha256:…` cells need ~1300px) overflowed to the
+  right and were clipped instead of scrolling. The 1.0.2 reset used
+  `display: table; width: 100%`, and `overflow` is ignored on a table box, so
+  a wide table could not scroll. The rule now uses GitHub's own
+  `display: block; width: max-content; max-width: 100%; overflow: auto`:
+  wide tables scroll horizontally *inside* the card, narrow ones keep
+  GitHub's content width instead of being stretched to the card.
+
+### Changed
+
+- The Files app's list-row `height: var(--row-height)` (44px) leaked into
+  markdown table rows, making them taller than on github.com; the reset now
+  also sets `height: auto`, so rows settle at ~36px like GitHub.
+- The Files app's `user-select: none` on list rows made README table text
+  impossible to select or copy; restored with `user-select: text` in the
+  scoped cell reset.
+
 ## 1.0.3 - 2026-09-15
 
 ### Fixed

@@ -588,37 +588,70 @@ footer.guest-box {
    README tables — GitHub-faithful rendering
    ============================================================ */
 
-/* Restore real table layout: the Files app scopes its flex list styles
-   to the whole .files-list container, which also hits markdown tables
-   the files_readmemd plugin renders inside the card. Scoped to
-   .markdown-body the file list's own table and Text editor stay
-   untouched. */
+/* Neutralise the Files app's file-list styling inside markdown tables.
+ *
+ * The Files app scopes its flex list rules to the whole .files-list
+ * container (`.files-list[data-v-…] tbody/tr/td/th { display:flex }`, cells
+ * `width/height: var(--row-height)`, `user-select:none`). Because the
+ * files_readmemd card is mounted inside .files-list, those rules also hit
+ * every README table, so we reset them here one property at a time.
+ *
+ * `#app-content-vue` gives us id-level specificity, which beats the Files
+ * app's class+attribute selectors without `!important` — and, unlike its
+ * `data-v-…` hash, it survives Files app rebuilds.
+ *
+ * The table itself uses GitHub's own rule: `display:block` makes
+ * `overflow:auto` effective, so a table wider than the card scrolls
+ * horizontally *inside* it. With `display:table`, `overflow` is ignored
+ * and a wide table spills out to the right instead.
+ *
+ * Scoped to .markdown-body so the file list's own flex table and the Text
+ * editor keep their native behaviour. */
 #app-content-vue .files-list .markdown-body table {
-	display: table;
+	display: block; /* GitHub's rule — lets `overflow` work on wide tables */
 	table-layout: auto;
 	border-collapse: collapse;
-	width: 100%;
+	width: max-content; /* shrink to content, capped by max-width below */
 	max-width: 100%;
-	overflow: auto;
+	overflow: auto; /* horizontal scroll for tables wider than the card */
 	font-variant: tabular-nums;
 }
 
-#app-content-vue .files-list .markdown-body table thead,
+/* Row groups: undo the Files app's `tbody { display:flex }`. Header and body
+   groups are declared separately so the header keeps its correct
+   `table-header-group` semantics (it repeats on printed pages). */
+#app-content-vue .files-list .markdown-body table thead {
+	display: table-header-group;
+}
+
 #app-content-vue .files-list .markdown-body table tbody {
 	display: table-row-group;
 }
 
+/* Rows: undo `display:flex` and the fixed 44px list-row height. With the
+   table on `display:block`, the rows form an anonymous table box, so they
+   still lay out as real table rows. */
 #app-content-vue .files-list .markdown-body table tr {
 	display: table-row;
 	width: auto;
+	height: auto;
+	min-height: 0;
 }
 
+/* Cells: undo the flex cells, the fixed width/height and the grey colour
+   the Files app forces on list cells. `user-select:text` restores selecting
+   and copying table text — the list rows set `user-select:none`, which
+   otherwise bleeds into every README cell. */
 #app-content-vue .files-list .markdown-body table th,
 #app-content-vue .files-list .markdown-body table td {
 	display: table-cell;
 	width: auto;
 	min-width: 0;
+	height: auto;
+	min-height: 0;
 	white-space: normal;
+	user-select: text;
+	-webkit-user-select: text;
 }
 
 /* --- GitHub's actual table rules (light theme mapping) --- */
