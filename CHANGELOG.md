@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.6 - 2026-11-02
+
+### Fixed
+
+- Public share header alignment: the header content is now constrained to
+  the same 1012px column as the file/README cards, so the logo and the single
+  Download button no longer sit at the viewport edges.
+- The public Download button is more compact and matches the card buttons:
+  32px height, 14px label, tighter padding and an 18px icon.
+
 ## 1.0.5 - 2026-11-02
 
 ### Fixed

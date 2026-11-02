@@ -747,3 +747,30 @@ footer.guest-box {
 #app-content-vue .files-list__row-trashbin-files_trashbin--deleted-by {
 	display: none;
 }
+
+/* ============================================================
+   Public share: align the guest header with the content card
+   ============================================================ */
+
+/* The file card is a centered 1012px column; the public header spans the
+   whole viewport, which left the Download button in the far right corner.
+   Align both header edges with the card. */
+#body-public #header {
+	box-sizing: border-box;
+	padding-inline: max(16px, calc((100% - 1012px) / 2));
+}
+
+/* Keep the single guest action compact and consistent with the card
+   buttons: slightly lower and tighter than the default primary button. */
+#body-public #public-page-menu--primary {
+	height: 32px;
+	min-height: 32px;
+	padding: 0 10px;
+	font-size: 14px;
+	line-height: 1;
+}
+
+#body-public #public-page-menu--primary .button-vue__icon {
+	width: 18px;
+	height: 18px;
+}
