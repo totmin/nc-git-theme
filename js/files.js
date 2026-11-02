@@ -25,8 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
 	const ITEMS_SELECTOR = '.action-items'
 	const DELETE_CLASS = 'nc-git-batch-delete-button'
 	const DOWNLOAD_CLASS = 'nc-git-batch-download-button'
-	const NATIVE_DELETE = '.files-list__row-actions-batch-delete button'
-	const NATIVE_DOWNLOAD_BUTTON = 'button.files-list__row-actions-batch-download'
+	// Nextcloud 35 forwards the action class to the inline NcButton root, so
+	// the native Download/Delete buttons match `button.<class>` there. Older
+	// releases keep the class on the menu entry wrapper, hence both selectors.
+	const NATIVE_DELETE_INLINE = 'button.files-list__row-actions-batch-delete'
+	const NATIVE_DELETE_ENTRY = '.files-list__row-actions-batch-delete button'
+	const NATIVE_DOWNLOAD_INLINE = 'button.files-list__row-actions-batch-download'
 	const NATIVE_DOWNLOAD_ENTRY = '.files-list__row-actions-batch-download button'
 	const WIDE_CLASS = 'nc-git-wide-batch'
 	const WIDE_BREAKPOINT = 1024
@@ -74,6 +78,14 @@ document.addEventListener('DOMContentLoaded', () => {
 	 * confirmation dialog) runs unchanged.
 	 */
 	const runNativeDelete = () => {
+		// Nextcloud 35: Delete is an inline button that carries the action
+		// class directly. It may be hidden by the theme's CSS, but a
+		// programmatic click still reaches the native handler.
+		const inline = document.querySelector(NATIVE_DELETE_INLINE)
+		if (inline !== null) {
+			inline.click()
+			return
+		}
 		const bar = document.querySelector(BAR_SELECTOR)
 		if (bar === null) {
 			return
@@ -85,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		overflow.click()
 		// The overflow menu is rendered by Vue asynchronously.
 		window.setTimeout(() => {
-			const item = document.querySelector(NATIVE_DELETE)
+			const item = document.querySelector(NATIVE_DELETE_ENTRY)
 			if (item !== null) {
 				item.click()
 			}
@@ -97,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	 * sits inline in the bar, on narrow layouts it lives in the overflow menu.
 	 */
 	const runNativeDownload = () => {
-		const inline = document.querySelector(NATIVE_DOWNLOAD_BUTTON)
+		const inline = document.querySelector(NATIVE_DOWNLOAD_INLINE)
 		if (inline !== null) {
 			inline.click()
 			return
@@ -135,6 +147,24 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	const appContent = () => document.querySelector('#app-content-vue')
+
+	/**
+	 * Expose the breadcrumbs height as a CSS variable. Nextcloud 35 renders the
+	 * selection batch actions inside the table header, and the theme pins that
+	 * header below the sticky breadcrumbs (see custom.css). The offset has to
+	 * follow the real toolbar height, which changes with the viewport.
+	 */
+	const syncBreadcrumbsHeight = () => {
+		const app = appContent()
+		if (app === null) {
+			return
+		}
+		const header = app.querySelector('.files-list__header')
+		if (header === null) {
+			return
+		}
+		app.style.setProperty('--nc-git-breadcrumbs-height', `${header.offsetHeight}px`)
+	}
 
 	/**
 	 * Keep the batch bar in sync: ensure the [Download][Delete] pair is present
@@ -258,6 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	 * Called on every DOM change: keep the batch bar and the file icons in sync.
 	 */
 	const onDomChange = () => {
+		syncBreadcrumbsHeight()
 		syncBar()
 		syncIcons()
 	}

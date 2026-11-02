@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.5 - 2026-11-02
+
+### Fixed
+
+- Nextcloud 35 removed the `files-list__thead-overlay` layer and moved the
+  selection batch actions into the table header row
+  (`tr.files-list__row-head--selected`). The theme now pins that header below
+  the sticky breadcrumbs while a selection is active, so the `[Download]
+  [Delete]` bar stays visible on long lists. The offset is measured at runtime
+  and exposed as `--nc-git-breadcrumbs-height`.
+- Removed the dead `.files-list__thead-overlay` and
+  `.files-list__table--with-thead-overlay` background/positioning rules left
+  over from Nextcloud 34.
+- Native batch Download/Delete lookup now matches both layouts: Nextcloud 35
+  forwards the action class to the inline button root, while older releases
+  keep it on the overflow-menu entry wrapper.
+
+### Changed
+
+- Synced the per-type icon set with the production build (additional file
+  types).
+
 ## 1.0.4 - 2026-09-18
 
 ### Fixed

@@ -1,6 +1,6 @@
 /*
  * nc-git-theme — GitHub-style theme for Nextcloud Files
- * Target: Nextcloud 30+ (min-version 30). Selectors re-checked on NC 34.0.0.
+ * Target: Nextcloud 30+ (min-version 30). Selectors re-checked on NC 34.0.0 and NC 35.0.2.
  * Only stable Nextcloud CSS variables are used -> adapts to light/dark themes.
  * Scoped to .files-list* / .login-box / footer.guest-box -> other apps untouched.
  */
@@ -70,8 +70,7 @@
 /* Sticky table header/footer keep the card background while scrolling
    (scoped app rule wins without the higher-specificity ancestor) */
 #app-content-vue .files-list__thead,
-#app-content-vue .files-list__tfoot,
-#app-content-vue .files-list__thead-overlay {
+#app-content-vue .files-list__tfoot {
 	background-color: var(--color-background-hover);
 }
 
@@ -398,11 +397,17 @@ body .files-list__header-upload-button--narrow .action-item__menutoggle .materia
 	z-index: auto;
 }
 
-/* The selection overlay is rendered only while files are selected; lift it
-   above the (static) table so the batch actions are clickable. */
-#app-content-vue .files-list__thead-overlay {
-	position: relative;
-	z-index: 5;
+/* Nextcloud 35 moved the selection batch actions from the removed
+   `.files-list__thead-overlay` into the table header row
+   (`tr.files-list__row-head--selected`). Keep that header pinned below the
+   sticky breadcrumbs while a selection is active, otherwise the
+   Download/Delete bar would scroll out of view on long lists.
+   The offset is measured in js/files.js. */
+#app-content-vue .files-list__thead:has(.files-list__row-head--selected) {
+	position: sticky !important;
+	top: var(--nc-git-breadcrumbs-height, 0px) !important;
+	z-index: 9;
+	border-block-end: 1px solid var(--color-border);
 }
 
 /* While a selection is active, hide the sortable column headers so they cannot
